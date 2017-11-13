@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Ryan Elmore" />
+
+<meta name="date" content="2017-11-12" />
+
+<title>Introduction to ballr</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to ballr</h1>
+<h4 class="author"><em>Ryan Elmore</em></h4>
+<h4 class="date"><em>2017-11-12</em></h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Welcome to the ballr [<strong>baw</strong>-ler], as in baller<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. This is <em>the</em> R resource for your basketball-reference.com needs.</p>
+<div id="install-the-package" class="section level3">
+<h3>Install the package</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;rtelmore/ballr&quot;</span>)
+<span class="kw">library</span>(ballr)</code></pre></div>
+<!-- ### Load some helpers -->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(janitor)
+<span class="kw">library</span>(scales)</code></pre></div>
+</div>
+<div id="example-1" class="section level3">
+<h3>Example 1</h3>
+<p>Current standings</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">standings &lt;-<span class="st"> </span><span class="kw">NBAStandingsByDate</span>() <span class="co"># &quot;YEAR-MO-DY&quot;</span>
+standings</code></pre></div>
+<pre><code>## $East
+##     eastern_conference  w  l w_lpercent  gb pw pl  ps_g  pa_g
+## 1       Boston Celtics 11  2      0.846   — 10  3 102.8  94.0
+## 2      Detroit Pistons  9  3      0.750 1.5  8  4 106.1 101.1
+## 3        Orlando Magic  8  5      0.615   3  8  5 110.5 107.6
+## 4      Toronto Raptors  7  4      0.636   3  7  4 110.1 105.2
+## 5      New York Knicks  7  5      0.583 3.5  7  5 106.4 105.0
+## 6   Washington Wizards  7  5      0.583 3.5  8  4 111.5 107.1
+## 7      Milwaukee Bucks  6  6      0.500 4.5  5  7 103.8 105.3
+## 8   Philadelphia 76ers  6  6      0.500 4.5  5  7 107.9 109.8
+## 9           Miami Heat  6  6      0.500 4.5  6  6 101.8 102.3
+## 10 Cleveland Cavaliers  6  7      0.462   5  5  8 110.2 113.4
+## 11      Indiana Pacers  6  7      0.462   5  7  6 109.0 108.4
+## 12   Charlotte Hornets  5  7      0.417 5.5  5  7 103.4 104.9
+## 13       Brooklyn Nets  5  8      0.385   6  5  8 110.6 114.5
+## 14       Chicago Bulls  2  9      0.182   8  2  9  93.6 103.9
+## 15       Atlanta Hawks  2 11      0.154   9  3 10 102.5 110.8
+## 
+## $West
+##        western_conference  w  l w_lpercent  gb pw pl  ps_g  pa_g
+## 1         Houston Rockets 10  3      0.769   —  9  4 110.5 103.5
+## 2   Golden State Warriors 10  3      0.769   — 11  2 120.3 108.3
+## 3       San Antonio Spurs  8  5      0.615   2  8  5 103.0  99.6
+## 4          Denver Nuggets  8  5      0.615   2  8  5 107.6 105.2
+## 5       Memphis Grizzlies  7  5      0.583 2.5  7  5 101.0  99.1
+## 6  Minnesota Timberwolves  7  5      0.583 2.5  5  7 108.8 111.8
+## 7    New Orleans Pelicans  7  6      0.538   3  7  6 107.5 107.2
+## 8  Portland Trail Blazers  6  6      0.500 3.5  8  4 105.5 100.7
+## 9               Utah Jazz  6  7      0.462   4  6  7  98.3  99.6
+## 10   Los Angeles Clippers  5  7      0.417 4.5  7  5 107.4 105.8
+## 11  Oklahoma City Thunder  5  7      0.417 4.5  8  4 103.3  98.4
+## 12     Los Angeles Lakers  5  8      0.385   5  5  8 103.5 106.8
+## 13           Phoenix Suns  5  9      0.357 5.5  3 11 107.0 116.2
+## 14       Sacramento Kings  3  9      0.250 6.5  2 10  94.8 105.3
+## 15       Dallas Mavericks  2 11      0.154   8  3 10  99.5 107.4</code></pre>
+<p>Standings on an arbitrary date</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">standings &lt;-<span class="st"> </span><span class="kw">NBAStandingsByDate</span>(<span class="st">&quot;2015-12-31&quot;</span>)
+standings</code></pre></div>
+<pre><code>## $East
+##      eastern_conference  w  l w_lpercent   gb pw pl  ps_g  pa_g
+## 1  Cleveland Cavaliers* 21  9      0.700    — 20 10  99.7  95.1
+## 2        Atlanta Hawks* 21 13      0.618    2 19 15 102.0 100.1
+## 3      Toronto Raptors* 20 13      0.606  2.5 20 13  99.8  96.4
+## 4         Chicago Bulls 18 12      0.600    3 16 14 101.1 100.0
+## 5         Orlando Magic 19 13      0.594    3 19 13 101.0  98.4
+## 6           Miami Heat* 18 13      0.581  3.5 17 14  97.0  95.5
+## 7       Indiana Pacers* 18 13      0.581  3.5 20 11 102.3  98.5
+## 8       Boston Celtics* 18 14      0.563    4 20 12 103.1  99.1
+## 9    Charlotte Hornets* 17 14      0.548  4.5 18 13 102.5  99.7
+## 10     Detroit Pistons* 17 15      0.531    5 17 15 101.0 100.2
+## 11      New York Knicks 15 18      0.455  7.5 15 18  98.0  99.5
+## 12   Washington Wizards 14 16      0.467    7 12 18 101.5 104.4
+## 13      Milwaukee Bucks 12 21      0.364 10.5 10 23  97.1 103.2
+## 14        Brooklyn Nets  9 23      0.281   13  9 23  97.1 103.4
+## 15   Philadelphia 76ers  3 31      0.088   20  5 29  92.5 104.4
+## 
+## $West
+##         western_conference  w  l w_lpercent   gb pw pl  ps_g  pa_g
+## 1   Golden State Warriors* 29  2      0.935    — 26  5 114.1 101.8
+## 2       San Antonio Spurs* 28  6      0.824  2.5 30  4 102.0  88.6
+## 3   Oklahoma City Thunder* 22 10      0.688  7.5 24  8 108.6 100.4
+## 4    Los Angeles Clippers* 20 13      0.606   10 19 14 103.1 100.9
+## 5        Dallas Mavericks* 19 13      0.594 10.5 18 14 102.3 100.8
+## 6       Memphis Grizzlies* 18 16      0.529 12.5 13 21  96.4  99.4
+## 7         Houston Rockets* 16 17      0.485   14 15 18 104.1 105.5
+## 8  Portland Trail Blazers* 14 20      0.412 16.5 16 18 101.3 102.0
+## 9                Utah Jazz 13 17      0.433 15.5 14 16  96.6  97.3
+## 10  Minnesota Timberwolves 12 20      0.375 17.5 14 18 100.4 102.6
+## 11        Sacramento Kings 12 20      0.375 17.5 13 19 104.2 107.3
+## 12          Denver Nuggets 12 21      0.364   18 11 22  98.9 103.8
+## 13            Phoenix Suns 12 22      0.353 18.5 14 20 102.7 105.4
+## 14    New Orleans Pelicans 10 21      0.323   19 11 20 102.1 107.0
+## 15      Los Angeles Lakers  6 27      0.182   24  6 27  96.8 107.2</code></pre>
+</div>
+<div id="example-2" class="section level3">
+<h3>Example 2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players &lt;-<span class="st"> </span><span class="kw">NBAPerGameStatistics</span>()
+players</code></pre></div>
+<pre><code>## # A tibble: 437 x 31
+##       rk            player   pos   age    tm     g    gs    mp    fg   fga
+##    &lt;dbl&gt;             &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1      Alex Abrines    SG    24   OKC    12     0  16.7   1.5   3.8
+##  2     2        Quincy Acy    PF    27   BRK    10     0  17.6   1.7   4.8
+##  3     3      Steven Adams     C    24   OKC    11    11  30.7   5.3   8.1
+##  4     4       Bam Adebayo     C    20   MIA     8     3  14.0   1.4   2.9
+##  5     5     Arron Afflalo    SG    32   ORL     9     0   9.4   0.4   1.7
+##  6     6      Cole Aldrich     C    29   MIN     4     0   2.3   0.0   0.5
+##  7     7 LaMarcus Aldridge    PF    32   SAS    13    13  32.8   8.5  16.9
+##  8     8     Jarrett Allen     C    19   BRK     6     0  15.0   1.5   3.7
+##  9     9        Tony Allen    SG    36   NOP    12     0  13.5   2.3   4.5
+## 10    10   Al-Farouq Aminu    PF    27   POR     8     8  30.1   3.3   7.5
+## # ... with 427 more rows, and 21 more variables: fgpercent &lt;dbl&gt;,
+## #   x3p &lt;dbl&gt;, x3pa &lt;dbl&gt;, x3ppercent &lt;dbl&gt;, x2p &lt;dbl&gt;, x2pa &lt;dbl&gt;,
+## #   x2ppercent &lt;dbl&gt;, efgpercent &lt;dbl&gt;, ft &lt;dbl&gt;, fta &lt;dbl&gt;,
+## #   ftpercent &lt;dbl&gt;, orb &lt;dbl&gt;, drb &lt;dbl&gt;, trb &lt;dbl&gt;, ast &lt;dbl&gt;,
+## #   stl &lt;dbl&gt;, blk &lt;dbl&gt;, tov &lt;dbl&gt;, pf &lt;dbl&gt;, ps_g &lt;dbl&gt;, link &lt;chr&gt;</code></pre>
+</div>
+<div id="example-3" class="section level3">
+<h3>Example 3</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players &lt;-<span class="st"> </span><span class="kw">NBAPerGameStatistics</span>(<span class="dt">season =</span> <span class="dv">2017</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(mp <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>, pos <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;SF&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(player, link) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">distinct</span>()</code></pre></div>
+<pre><code>## # A tibble: 56 x 2
+##                   player                      link
+##                    &lt;chr&gt;                     &lt;chr&gt;
+##  1       Al-Farouq Aminu /players/a/aminual01.html
+##  2       Justin Anderson /players/a/anderju01.html
+##  3 Giannis Antetokounmpo /players/a/antetgi01.html
+##  4       Carmelo Anthony /players/a/anthoca01.html
+##  5          Trevor Ariza /players/a/arizatr01.html
+##  6           Matt Barnes /players/b/barnema02.html
+##  7         Kent Bazemore /players/b/bazemke01.html
+##  8      Bojan Bogdanovic /players/b/bogdabo02.html
+##  9          Jimmy Butler /players/b/butleji01.html
+## 10       DeMarre Carroll /players/c/carrode01.html
+## # ... with 46 more rows</code></pre>
+</div>
+<div id="example-4" class="section level3">
+<h3>Example 4</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players &lt;-<span class="st"> </span><span class="kw">NBAPerGameStatisticsPer36Min</span>(<span class="dt">season =</span> <span class="dv">2017</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players</code></pre></div>
+<pre><code>## # A tibble: 595 x 30
+##       rk            player   pos   age    tm     g    gs    mp    fg   fga
+##    &lt;dbl&gt;             &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1      Alex Abrines    SG    23   OKC    68     6  1055   4.6  11.6
+##  2     2        Quincy Acy    PF    26   TOT    38     1   558   4.5  11.0
+##  3     2        Quincy Acy    PF    26   DAL     6     0    48   3.7  12.7
+##  4     2        Quincy Acy    PF    26   BRK    32     1   510   4.6  10.8
+##  5     3      Steven Adams     C    23   OKC    80    80  2389   5.6   9.9
+##  6     4     Arron Afflalo    SG    31   SAC    61    45  1580   4.2   9.6
+##  7     5     Alexis Ajinca     C    28   NOP    39    15   584   5.5  11.0
+##  8     6      Cole Aldrich     C    28   MIN    62     0   531   3.1   5.8
+##  9     7 LaMarcus Aldridge    PF    31   SAS    72    72  2335   7.7  16.2
+## 10     8       Lavoy Allen    PF    27   IND    61     5   871   3.2   6.9
+## # ... with 585 more rows, and 20 more variables: fgpercent &lt;dbl&gt;,
+## #   x3p &lt;dbl&gt;, x3pa &lt;dbl&gt;, x3ppercent &lt;dbl&gt;, x2p &lt;dbl&gt;, x2pa &lt;dbl&gt;,
+## #   x2ppercent &lt;dbl&gt;, ft &lt;dbl&gt;, fta &lt;dbl&gt;, ftpercent &lt;dbl&gt;, orb &lt;dbl&gt;,
+## #   drb &lt;dbl&gt;, trb &lt;dbl&gt;, ast &lt;dbl&gt;, stl &lt;dbl&gt;, blk &lt;dbl&gt;, tov &lt;dbl&gt;,
+## #   pf &lt;dbl&gt;, pts &lt;dbl&gt;, link &lt;chr&gt;</code></pre>
+</div>
+<div id="example---look-at-centers-and-power-forwards-averaging-more-than-10-mpg" class="section level3">
+<h3>Example - Look at Centers and Power Forwards averaging more than 10 MPG</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players &lt;-<span class="st"> </span><span class="kw">NBAPerGameStatisticsPer36Min</span>(<span class="dt">season =</span> <span class="dv">2017</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(pos <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;PF&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">top_n</span>(<span class="dt">n =</span> <span class="dv">10</span>, pts) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(player, link) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">distinct</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">players</code></pre></div>
+<pre><code>## # A tibble: 8 x 2
+##               player                      link
+##                &lt;chr&gt;                     &lt;chr&gt;
+## 1   DeMarcus Cousins /players/c/couside01.html
+## 2      Anthony Davis /players/d/davisan02.html
+## 3        Joel Embiid /players/e/embiijo01.html
+## 4        Enes Kanter /players/k/kanteen01.html
+## 5        Brook Lopez /players/l/lopezbr01.html
+## 6   Boban Marjanovic /players/m/marjabo01.html
+## 7       JaVale McGee /players/m/mcgeeja01.html
+## 8 Karl-Anthony Towns /players/t/townska01.html</code></pre>
+<p>Query each player in the list</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">player_stats &lt;-<span class="st"> </span><span class="kw">NBAPlayerPerGameStats</span>(players[<span class="dv">1</span>, <span class="dv">2</span>]) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(age)) <span class="op">%&gt;%</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">player =</span> <span class="kw">as.character</span>(players[<span class="dv">1</span>, <span class="dv">1</span>]))</code></pre></div>
+<p>Append the stats from each player into a df</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="kw">dim</span>(players)[<span class="dv">1</span>]){
+  tmp &lt;-<span class="st"> </span><span class="kw">NBAPlayerPerGameStats</span>(players[i, <span class="dv">2</span>]) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(age)) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">player =</span> <span class="kw">as.character</span>(players[i, <span class="dv">1</span>]))
+  player_stats &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(player_stats, tmp)
+}</code></pre></div>
+<p>Plot everything</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#player_stats &lt;- clean_names(player_stats)</span>
+p &lt;-<span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggplot</span>(<span class="dt">data =</span> player_stats,
+            <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> efgpercent, <span class="dt">group =</span> player))
+p <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> .<span class="dv">25</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> .<span class="dv">25</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;effective field goal %age&quot;</span>, <span class="dt">limit =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),
+                     <span class="dt">labels =</span> percent) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_line</span>(<span class="dt">data =</span> dplyr<span class="op">::</span><span class="kw">filter</span>(player_stats, player <span class="op">==</span><span class="st"> &quot;Anthony Davis&quot;</span>),
+            <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> efgpercent), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#1f78b4&quot;</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(<span class="dt">data =</span> dplyr<span class="op">::</span><span class="kw">filter</span>(player_stats, player <span class="op">==</span><span class="st"> &quot;Anthony Davis&quot;</span>),
+            <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> efgpercent), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#1f78b4&quot;</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_line</span>(<span class="dt">data =</span> dplyr<span class="op">::</span><span class="kw">filter</span>(player_stats, player <span class="op">==</span><span class="st"> &quot;DeMarcus Cousins&quot;</span>),
+            <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> efgpercent), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#33a02c&quot;</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(<span class="dt">data =</span> dplyr<span class="op">::</span><span class="kw">filter</span>(player_stats, player <span class="op">==</span><span class="st"> &quot;DeMarcus Cousins&quot;</span>),
+             <span class="kw">aes</span>(<span class="dt">x =</span> age, <span class="dt">y =</span> efgpercent), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;#33a02c&quot;</span>) <span class="op">+</span>
+<span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">theme_bw</span>()</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="advanced-statistics" class="section level3">
+<h3>Advanced Statistics</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">per_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="kw">NBAPerGameStatisticsPer100Poss</span>(<span class="dt">season =</span> <span class="dv">2018</span>)
+utils<span class="op">::</span><span class="kw">head</span>(per_<span class="dv">100</span>)</code></pre></div>
+<pre><code>##   rk        player pos age  tm  g gs  mp  fg  fga fgpercent x3p x3pa
+## 1  1  Alex Abrines  SG  24 OKC 12  0 200 4.5 11.1     0.400 2.7  7.4
+## 2  2    Quincy Acy  PF  27 BRK 10  0 176 4.4 12.4     0.354 3.9 10.9
+## 3  3  Steven Adams   C  24 OKC 11 11 338 8.5 13.0     0.652 0.0  0.0
+## 4  4   Bam Adebayo   C  20 MIA  8  3 112 4.8 10.0     0.478 0.0  0.0
+## 5  5 Arron Afflalo  SG  32 ORL  9  0  85 2.2  8.3     0.267 0.6  3.3
+## 6  6  Cole Aldrich   C  29 MIN  4  0   9 0.0 10.7     0.000 0.0  0.0
+##   x3ppercent x2p x2pa x2ppercent  ft  fta ftpercent orb drb  trb ast stl
+## 1      0.367 1.7  3.7      0.467 1.5  1.7     0.857 1.2 3.2  4.5 1.2 1.7
+## 2      0.357 0.5  1.6      0.333 2.1  2.6     0.800 1.0 9.8 10.9 2.1 1.3
+## 3         NA 8.5 13.0      0.652 2.8  3.7     0.760 6.4 7.0 13.5 1.9 2.5
+## 4         NA 4.8 10.0      0.478 3.5  4.8     0.727 6.1 9.2 15.3 0.0 1.7
+## 5      0.167 1.7  5.0      0.333 2.2  2.8     0.800 0.0 6.1  6.1 2.8 0.6
+## 6         NA 0.0 10.7      0.000 5.4 10.7     0.500 0.0 5.4  5.4 5.4 5.4
+##   blk tov   pf  pts  x ortg drtg                      link
+## 1 0.2 1.2  6.4 13.1 NA  110  106 /players/a/abrinal01.html
+## 2 0.0 2.9  6.5 14.8 NA   97  109   /players/a/acyqu01.html
+## 3 2.0 2.8  3.5 19.8 NA  127  100 /players/a/adamsst01.html
+## 4 1.7 1.3  5.2 13.1 NA  117  101 /players/a/adebaba01.html
+## 5 0.6 1.7  2.8  7.2 NA   79  109 /players/a/afflaar01.html
+## 6 0.0 0.0 10.7  5.4 NA   59  105 /players/a/aldrico01.html</code></pre>
+</div>
+<div id="advanced-statistics-1" class="section level3">
+<h3>Advanced Statistics</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adv_stats &lt;-<span class="st"> </span><span class="kw">NBAPerGameAdvStatistics</span>(<span class="dt">season =</span> <span class="dv">2018</span>)
+utils<span class="op">::</span><span class="kw">head</span>(adv_stats)</code></pre></div>
+<pre><code>##   rk        player pos age  tm  g  mp  per tspercent x3par   ftr
+## 1  1  Alex Abrines  SG  24 OKC 12 200  7.5     0.551 0.667 0.156
+## 2  2    Quincy Acy  PF  27 BRK 10 176  7.5     0.544 0.875 0.208
+## 3  3  Steven Adams   C  24 OKC 11 338 21.9     0.675 0.000 0.281
+## 4  4   Bam Adebayo   C  20 MIA  8 112 14.4     0.539 0.000 0.478
+## 5  5 Arron Afflalo  SG  32 ORL  9  85  2.8     0.378 0.400 0.333
+## 6  6  Cole Aldrich   C  29 MIN  4   9  0.9     0.174 0.000 1.000
+##   orbpercent drbpercent trbpercent astpercent stlpercent blkpercent
+## 1        2.7        7.5        5.1        3.5        1.7        0.4
+## 2        2.2       22.7       12.1        6.3        1.3        0.0
+## 3       14.3       16.3       15.3        6.1        2.5        3.7
+## 4       14.2       20.0       17.2        0.0        1.7        2.8
+## 5        0.0       13.7        7.1        7.3        0.6        0.9
+## 6        0.0       13.1        6.4       13.5        5.4        0.0
+##   tovpercent usgpercent  x  ows dws  ws  ws_48 x_2 obpm dbpm  bpm vorp
+## 1        9.4       11.5 NA  0.2 0.2 0.4  0.091  NA -1.4 -0.7 -2.1  0.0
+## 2       17.4       14.6 NA  0.0 0.1 0.1  0.031  NA -2.3 -1.0 -3.3 -0.1
+## 3       16.0       15.3 NA  1.0 0.6 1.6  0.225  NA  1.8  3.1  4.9  0.6
+## 4        9.7       12.1 NA  0.2 0.2 0.4  0.153  NA -3.7 -1.1 -4.8 -0.1
+## 5       14.9       10.2 NA -0.1 0.1 0.0 -0.025  NA -5.5 -0.2 -5.7 -0.1
+## 6        0.0       13.6 NA  0.0 0.0 0.0 -0.088  NA -7.2  1.7 -5.5  0.0
+##                        link
+## 1 /players/a/abrinal01.html
+## 2   /players/a/acyqu01.html
+## 3 /players/a/adamsst01.html
+## 4 /players/a/adebaba01.html
+## 5 /players/a/afflaar01.html
+## 6 /players/a/aldrico01.html</code></pre>
+</div>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<p>Look at selector gadget for a team’s website, e.g. <a href="http://www.basketball-reference.com/teams/DEN/2017.html">Denver Nuggets</a>. Suppose you want to find everybody who played for the Nuggets last year, and then their stats. Remember to use Chrome (ugh).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)</code></pre></div>
+<pre><code>## Loading required package: xml2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st"> &quot;http://www.basketball-reference.com/teams/DEN/2017.html&quot;</span>
+links &lt;-<span class="st"> </span>xml2<span class="op">::</span><span class="kw">read_html</span>(url) <span class="op">%&gt;%</span>
+<span class="st">    </span>rvest<span class="op">::</span><span class="kw">html_nodes</span>(<span class="st">&quot;.center+ .left a&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>rvest<span class="op">::</span><span class="kw">html_attr</span>(<span class="st">'href'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">links </code></pre></div>
+<pre><code>##  [1] &quot;/players/a/arthuda01.html&quot; &quot;/players/b/bartowi01.html&quot;
+##  [3] &quot;/players/b/beaslma01.html&quot; &quot;/players/c/chandwi01.html&quot;
+##  [5] &quot;/players/f/farieke01.html&quot; &quot;/players/g/gallida01.html&quot;
+##  [7] &quot;/players/g/geeal01.html&quot;   &quot;/players/h/harriga01.html&quot;
+##  [9] &quot;/players/h/hernaju01.html&quot; &quot;/players/h/hibbero01.html&quot;
+## [11] &quot;/players/j/jokicni01.html&quot; &quot;/players/m/millemi01.html&quot;
+## [13] &quot;/players/m/mudiaem01.html&quot; &quot;/players/m/murraja01.html&quot;
+## [15] &quot;/players/n/nelsoja01.html&quot; &quot;/players/n/nurkiju01.html&quot;
+## [17] &quot;/players/o/obryajo01.html&quot; &quot;/players/p/plumlma01.html&quot;
+## [19] &quot;/players/s/stokeja01.html&quot;</code></pre>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://www.urbandictionary.com/define.php?term=baller" class="uri">https://www.urbandictionary.com/define.php?term=baller</a><a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
