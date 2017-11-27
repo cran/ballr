@@ -1,6 +1,4 @@
-## ---- message = F, warning = F-------------------------------------------
-library(devtools)
-devtools::install_github("rtelmore/ballr")
+## ----setup, message = FALSE, warning = FALSE-----------------------------
 library(ballr)
 
 ## ---- message = F, warning = F-------------------------------------------
