@@ -29,9 +29,18 @@ NBAPerGameStatistics <- function(season = 2018) {
                    sep = "")
   pg <- xml2::read_html(nba_url)
 
-  nba_stats <- dplyr::tbl_df(rvest::html_table(pg, fill = T)[[1]]) %>%
-    janitor::clean_names() %>%
-    dplyr::filter(.data$player != "Player")
+  nba_stats <- dplyr::tbl_df(rvest::html_table(pg, fill = T)[[1]])
+
+  if (utils::packageVersion("janitor") > "0.3.1") {
+    nba_stats <- nba_stats %>%
+      janitor::clean_names(case = "old_janitor") %>%
+      dplyr::filter(.data$player != "Player")
+  } else {
+    nba_stats <- nba_stats %>%
+      janitor::clean_names() %>%
+      janitor::remove_empty_cols() %>%
+      dplyr::filter(.data$player != "Player")
+  }
 
   links <- pg %>%
     rvest::html_nodes("tr.full_table") %>%
@@ -41,6 +50,7 @@ NBAPerGameStatistics <- function(season = 2018) {
     rvest::html_nodes("tr.full_table") %>%
     rvest::html_nodes("a") %>%
     rvest::html_text()
+
   links_df <- dplyr::data_frame(player = as.character(link_names),
                             link       = as.character(links))
   links_df[] <- lapply(links_df, as.character)

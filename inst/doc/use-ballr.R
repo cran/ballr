@@ -58,7 +58,6 @@ for(i in 2:dim(players)[1]){
 }
 
 ## ------------------------------------------------------------------------
-#player_stats <- clean_names(player_stats)
 p <- ggplot2::ggplot(data = player_stats,
             aes(x = age, y = efgpercent, group = player))
 p + ggplot2::geom_line(alpha = .25) +
