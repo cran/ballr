@@ -1,8 +1,8 @@
 Package: ballr
 Type: Package
 Title: Access to Current and Historical Basketball Data
-Version: 0.2.3
-Date: 2018-10-19
+Version: 0.2.4
+Date: 2019-10-22
 Authors@R: c(
     person("Ryan", "Elmore", email = "rtelmore@gmail.com", role = c("cre", "aut")),
     person("Peter", "DeWitt", email = "dewittpe@gmail.com", role = "ctb"))
@@ -13,12 +13,12 @@ Imports: dplyr (>= 0.7.0), janitor, lubridate, magrittr, rlang, rvest,
         xml2
 Suggests: covr, devtools, knitr, ggplot2, rmarkdown, scales
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-10-31 21:50:11 UTC; Ryan
+Packaged: 2019-10-22 20:23:52 UTC; Ryan
 Author: Ryan Elmore [cre, aut],
   Peter DeWitt [ctb]
 Maintainer: Ryan Elmore <rtelmore@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-11-01 09:30:03 UTC
+Date/Publication: 2019-10-22 20:40:02 UTC
