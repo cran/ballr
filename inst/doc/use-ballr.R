@@ -35,8 +35,8 @@ players <- NBAPerGameStatisticsPer36Min(season = 2017)
 players
 
 ## ------------------------------------------------------------------------
-players <- NBAPerGameStatisticsPer36Min(season = 2017) %>%
-  dplyr::filter(pos %in% c("C", "PF")) %>%
+players <- NBAPerGameStatisticsPer36Min(season = 2019) %>%
+  dplyr::filter(pos %in% c("SF", "PF")) %>%
   dplyr::top_n(n = 10, pts) %>% 
   dplyr::select(player, link) %>%
   dplyr::distinct()

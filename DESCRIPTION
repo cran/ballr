@@ -1,8 +1,8 @@
 Package: ballr
 Type: Package
 Title: Access to Current and Historical Basketball Data
-Version: 0.2.4
-Date: 2019-10-22
+Version: 0.2.5
+Date: 2020-01-10
 Authors@R: c(
     person("Ryan", "Elmore", email = "rtelmore@gmail.com", role = c("cre", "aut")),
     person("Peter", "DeWitt", email = "dewittpe@gmail.com", role = "ctb"))
@@ -16,9 +16,9 @@ LazyData: TRUE
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-10-22 20:23:52 UTC; Ryan
+Packaged: 2020-01-10 17:31:30 UTC; Ryan
 Author: Ryan Elmore [cre, aut],
   Peter DeWitt [ctb]
 Maintainer: Ryan Elmore <rtelmore@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-10-22 20:40:02 UTC
+Date/Publication: 2020-01-10 18:30:02 UTC
