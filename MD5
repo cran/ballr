@@ -1,4 +1,4 @@
-a94d0fbf264df16f26eb7854e2485d3c *DESCRIPTION
+4699195993d3ed032e5263c69d9edcf5 *DESCRIPTION
 8050b33395d3ca933b5487968e3e5374 *NAMESPACE
 38a39777c2555c17a4324ed38093bd99 *R/ballr-pkg.R
 84ef21bdd6c7ca0f84c98f1eeade6462 *R/nba-per-game-adv-stats.R
@@ -11,9 +11,9 @@ d2657f0fd56b375d5370d3691a936b8e *R/nba-season-team-by-year.R
 bf7692170895c6b589e2b09d954b3521 *R/zzz.R
 07665ffc25d3f93bbfc4b2607d6f86b1 *README.md
 7cd4c6f069760557f4ce05413e4c1590 *build/vignette.rds
-862d5658c1a9b39f72d9168c3a994488 *inst/doc/use-ballr.R
-5ff1820c250e0861f8fc75a1147a2159 *inst/doc/use-ballr.Rmd
-3ffa22d03a351ff05dfd27812592ee52 *inst/doc/use-ballr.html
+4df26280471e68c6958b87f4abc826c5 *inst/doc/use-ballr.R
+d37c233d1492f95b6f46d036ae22aa27 *inst/doc/use-ballr.Rmd
+87ea418d2a9dba48a77c2eb5d3d2b664 *inst/doc/use-ballr.html
 a1c270d46281ac570f75b249e2f13128 *man/NBAPerGameAdvStatistics.Rd
 3e3e05f099eb67153fa7e3ee26c3f1b1 *man/NBAPerGameStatistics.Rd
 437194d94a2a0321a71f7a04071fd787 *man/NBAPerGameStatisticsPer100Poss.Rd
@@ -23,5 +23,5 @@ fd5bdd7fb6d788b0048be8d614f879d0 *man/NBASeasonTeamByYear.Rd
 f75704bcf799812d8016dcbf87028f9f *man/NBAStandingsByDate.Rd
 b80a33c93ad73db953a313de90c69a1d *man/ballr.Rd
 bebdab272468bb9b5de22c4091947451 *man/figures/court-3.png
-5ff1820c250e0861f8fc75a1147a2159 *vignettes/use-ballr.Rmd
+d37c233d1492f95b6f46d036ae22aa27 *vignettes/use-ballr.Rmd
 b30836ff594aedd1bc46d532d8a1a807 *vignettes/use-ballr.md
